@@ -12,12 +12,13 @@
             >
                 <div class="card-inner" :class="{flipped: flippedCard === movie.id}">
                     <div class="card-front">
+                        <img :src="movie.image" alt="Poster do filme" class="movie-poster">
                         <h2>{{ movie.title }}</h2>
                     </div>
-                    <div class="card-black">
+                    <div class="card-back">
                         <p><strong>Diretor:</strong> {{ movie.director }}</p>
                         <p><strong>Ano:</strong> {{ movie.release_date }}</p>
-                        <p><strong>Descrição:</strong> {{ movie.description || 'Sem descrição' }}</p>
+                        <p><strong>Assistir mais tarde</strong> {{ movie.description || 'Sem descrição' }}</p>
                     </div>
                 </div>
             </div>
@@ -25,14 +26,13 @@
     </div>
 </template>
 
-
 <script>
     import axios from "axios";
     export default {
         data (){
             return {
                 movies: [],
-                flippedcard: null,
+                flippedCard: null,
             };
         },
         mounted(){
@@ -44,23 +44,20 @@
                     const response = await axios.get('https://ghibliapi.vercel.app/films');
                     this.movies = response.data;
                 } catch (error){
-                    console.error("vla", error);
+                    console.error("Erro ao buscar filmes:", error);
                 }
             },
             toggleDetails(id){
-                this.flippedcard = this.flippedcard === id ? null: id;
+                this.flippedCard = this.flippedCard === id ? null : id;
             },
         },
     };
 </script>
 
-
 <style>
 .movies-container {
-  max-width: 800px;
-  margin: auto;
-  padding: 20px;
-  font-family: Arial, sans-serif;
+ display: grid;
+  
 }
 
 h1 {
@@ -69,15 +66,13 @@ h1 {
 }
 
 .movies-list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 20px;
+  gap: 30px;
+  max-width: 1200px;
+  width: 100%; 
 }
-
 .movie-card {
-  width: 200px;
-  height: 300px;
+  width: 100%; 
+  height: 350px;
   perspective: 1000px;
 }
 
@@ -93,25 +88,44 @@ h1 {
   transform: rotateY(180deg);
 }
 
-.card-front{
-    background-color: #333;
-}
-.card-black {
+.card-front, .card-back {
   position: absolute;
   width: 100%;
   height: 100%;
   backface-visibility: hidden;
   border: 1px solid #ddd;
   border-radius: 10px;
-  background-color: #fff;
+}
+
+.card-front {
+  background-color: #333;
+  color: #fff;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  text-align: center;
+  justify-content: center;
+}
+
+.movie-poster {
+  width: 100%;
+  height: 80%;
+  object-fit: cover;
+  border-bottom: 1px solid #ddd;
 }
 
 .card-back {
+  background-color: #333;
   transform: rotateY(180deg);
   padding: 10px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 </style>
+
+
+
+
+
+<!-- MUDAR O GRID DO APP  -->

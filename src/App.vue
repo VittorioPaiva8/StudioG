@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" class="app">
     <Movies />
   </div>
 </template>
@@ -13,3 +13,4 @@
     },
   };
 </script>
+
